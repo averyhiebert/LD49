@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://levels/LevelTemplate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nonplayer_sprites/human.tscn" type="PackedScene" id=2]
 [ext_resource path="res://levels/Level2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MainLevelTilemap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://shaders/water.shader" type="Shader" id=5]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 5 )
+shader_param/global_transform = null
+shader_param/speed1 = -0.5
+shader_param/speed2 = -1.5
+shader_param/amp1 = 2.0
+shader_param/amp2 = 1.0
+shader_param/period1 = 1
+shader_param/period2 = 4
 
 [node name="Level1" type="Node2D"]
 
@@ -22,16 +34,22 @@ position = Vector2( 176, 520 )
 target = ExtResource( 3 )
 
 [node name="FlagPole2" parent="LevelTemplate/Exit" index="1"]
-frame = 5
+frame = 0
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 position = Vector2( 884, 488 )
 
 [node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="1"]
 position = Vector2( -4, 8 )
-frame = 3
+frame = 4
 
 [node name="human" parent="LevelTemplate/PassengerPickup" index="2" instance=ExtResource( 2 )]
 position = Vector2( -28, 12 )
+frame = 1
+
+[node name="Water" parent="LevelTemplate" instance=ExtResource( 4 )]
+material = SubResource( 1 )
+collision_layer = 8
+tile_data = PoolIntArray( 1507327, 0, 393217, 1441792, 0, 393217, 1441793, 0, 393217, 1441794, 0, 393217, 1441795, 0, 393217, 1441796, 0, 393217, 1441797, 0, 393217, 1441798, 0, 393217, 1441799, 0, 393217, 1441800, 0, 393217, 1441801, 0, 393217, 1441802, 0, 393217, 1441803, 0, 393217, 1441804, 0, 393217, 1441805, 0, 393217, 1441806, 0, 393217, 1441807, 0, 393217, 1441808, 0, 393217, 1441809, 0, 393217, 1441810, 0, 393217, 1441811, 0, 393217, 1441812, 0, 393217, 1441813, 0, 393217, 1441814, 0, 393217, 1441815, 0, 393217, 1441816, 0, 393217, 1441817, 0, 393217, 1441818, 0, 393217, 1441819, 0, 393217, 1441820, 0, 393217, 1441821, 0, 393217, 1441822, 0, 393217, 1572863, 0, 393217, 1507328, 0, 393217, 1507329, 0, 393217, 1507330, 0, 393217, 1507331, 0, 393217, 1507332, 0, 393217, 1507333, 0, 393217, 1507334, 0, 393217, 1507335, 0, 393217, 1507336, 0, 393217, 1507337, 0, 393217, 1507338, 0, 393217, 1507339, 0, 393217, 1507340, 0, 393217, 1507341, 0, 393217, 1507342, 0, 393217, 1507343, 0, 393217, 1507344, 0, 393217, 1507345, 0, 393217, 1507346, 0, 393217, 1507347, 0, 393217, 1507348, 0, 393217, 1507349, 0, 393217, 1507350, 0, 393217, 1507351, 0, 393217, 1507352, 0, 393217, 1507353, 0, 393217, 1507354, 0, 393217, 1507355, 0, 393217, 1507356, 0, 393217, 1507357, 0, 393217, 1507358, 0, 393217 )
 
 [editable path="LevelTemplate"]

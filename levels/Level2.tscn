@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://levels/LevelTemplate.tscn" type="PackedScene" id=1]
-[ext_resource path="res://levels/EndScreen.tscn" type="PackedScene" id=2]
+[ext_resource path="res://levels/Level3.tscn" type="PackedScene" id=2]
 [ext_resource path="res://nonplayer_sprites/human.tscn" type="PackedScene" id=3]
 
 [node name="Level2" type="Node2D"]
@@ -23,13 +23,13 @@ target = ExtResource( 2 )
 
 [node name="FlagPole2" parent="LevelTemplate/Exit" index="1"]
 position = Vector2( 4, 8 )
-frame = 2
+frame = 3
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 position = Vector2( 1456, 520 )
 
 [node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="1"]
-frame = 0
+frame = 1
 
 [node name="human" parent="LevelTemplate/PassengerPickup" index="2" instance=ExtResource( 3 )]
 position = Vector2( -40, 12 )
@@ -37,5 +37,6 @@ position = Vector2( -40, 12 )
 [node name="human2" parent="LevelTemplate/PassengerPickup" index="3" instance=ExtResource( 3 )]
 position = Vector2( -16, 12 )
 animation = "jumping"
+frame = 1
 
 [editable path="LevelTemplate"]

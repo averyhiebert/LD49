@@ -26,8 +26,8 @@ current = true
 limit_left = 0
 limit_top = 0
 limit_bottom = 720
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
+smoothing_enabled = true
+smoothing_speed = 10.0
 __meta__ = {
 "_edit_lock_": true
 }
@@ -38,11 +38,10 @@ is_level_exit = true
 
 [node name="FlagPole2" parent="Exit" instance=ExtResource( 4 )]
 position = Vector2( -24, 8 )
-frame = 1
+frame = 2
 
 [node name="PassengerPickup" parent="." instance=ExtResource( 3 )]
 position = Vector2( 176, 200 )
 
 [node name="FlagPole" parent="PassengerPickup" instance=ExtResource( 4 )]
 position = Vector2( 24, 8 )
-frame = 5

@@ -18,15 +18,21 @@ const MAX_LANDING_ROT = 0.28 # How rotated can we be to count as a valid landing
 const MAX_LANDING_SPEED = 100 # How fast can we be moving when we land?
 var rotation_direction = 0 # Can be 1,-1,0
 
+const GRACE_PERIOD = 0.1 # Can't crash within this time of having landed
+const STICKY_PERIOD = 0.01 # Can't take off within sticky period.
 var landed = false
+var first_landed = 0 # Last time that we first became landed
+var last_landed = 0 # Last time that we were landed
 var current_landing_area = null
 var has_passengers = false
+
+var original_parent = null
 
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	original_parent = get_parent()
 
 
 func _process(delta):
@@ -51,6 +57,25 @@ func _process(delta):
 		prop_spinning = false
 		$AnimatedSprite.play("slow")
 
+func reparent(node):
+	# Reparent self (for landing on moving platforms)
+	if not node:
+		node = original_parent
+		print("Unreparented")
+	else:
+		print("Reparented")
+	
+	var gpos = global_position
+	var grot = global_rotation
+	
+	var parent = get_parent()
+	parent.remove_child(self)
+	node.add_child(self)
+	self.set_owner(node)
+	# Fix position and rotation
+	global_position = gpos
+	global_rotation = grot
+
 func _physics_process(delta):
 	if skip_physics:
 		return
@@ -61,41 +86,61 @@ func _physics_process(delta):
 	else:
 		thrust = max(0,thrust - THRUST_DEACC*delta)
 	var thrust_vec = thrust * prop_direction * delta # rotated by sprite rotation
-	velocity += thrust_vec
 	
 	# Gravity (if on floor) or friction (if not), also check for crash
-	if is_on_floor():
-		if not landed:
-			var collision_normal = Vector2(0,-1) # (Up by default)
-			var collider_velocity = Vector2(0,0)
-			if get_slide_collision(0):
-				collision_normal = get_slide_collision(0).normal
-				collider_velocity = get_slide_collision(0).collider_velocity
-			else:
-				pass #i.e. just assume flat, static platform
-			# Get rotation and speed relative to what we landed on
-			var rotation_offset = abs(collision_normal.angle_to(prop_direction))
-			var speed_diff = abs((velocity - collider_velocity).length())
-			if rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED:
-				crash()
-			else:
+	# This is a terrible mess in order to properly handle landing on
+	#  moving objects, sorry....
+	if landed:
+		# Note: *not* updated the tick when landing occurs
+		#  (so grace period does not apply when landing)
+		last_landed = OS.get_ticks_msec()/1000
+		if prop_spinning and last_landed - first_landed > STICKY_PERIOD:
+			landed = false
+			reparent(null)
+	
+	if is_on_floor() and not landed:
+		var collision_normal = Vector2(0,-1) # (Up by default)
+		var collider_velocity = Vector2(0,0)
+		if get_slide_collision(0):
+			collision_normal = get_slide_collision(0).normal
+			collider_velocity = get_slide_collision(0).collider_velocity
+		else:
+			pass #i.e. just assume flat, static platform
+		# Get rotation and speed relative to what we landed on
+		var rotation_offset = abs(collision_normal.angle_to(prop_direction))
+		var speed_diff = abs((velocity - collider_velocity).length())
+		var is_water = get_slide_collision(0).collider.get_collision_layer() == 8
+		print(get_slide_collision(0).collider.get_collision_layer())
+		if rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED or is_water:
+			crash()
+		else:
+			var curr_time = OS.get_ticks_msec()/1000
+			# Don't land again if we just took off
+			if curr_time - last_landed > GRACE_PERIOD:
+				first_landed = curr_time
 				landed = true
 				if current_landing_area:
 					current_landing_area.trigger(self)
 				rotation = Vector2(0,-1).angle_to(collision_normal) # TODO Lerp
-			
-			# Add collider velocity
-			velocity += collider_velocity*delta
-		if not prop_spinning:
-			velocity = Vector2(0,0)
+				# Reparent to colliding body
+				#if get_slide_collision(0) and not prop_spinning:
+				reparent(get_slide_collision(0).collider)
+				return # Don't move this turn (we're static relative to parent)
+	
+	# No touching velocity until here:
+	if landed:
+		velocity = Vector2(0,0)
 	else:
-		landed = false
 		var gravity_vec = Vector2(0,GRAVITY) * delta
 		var friction_vec = - AIR_FRICTION * velocity.normalized() * delta
-		velocity += gravity_vec + friction_vec
+		velocity += thrust_vec
+		velocity += gravity_vec
+		velocity += friction_vec
 	move_and_slide(velocity,Vector2(0,-1))
 
 func crash():
+	if OS.get_ticks_msec()/1000 - last_landed < GRACE_PERIOD:
+		return
 	skip_physics = true
 	$DeathParticles.emitting = true
 	$AnimatedSprite.visible = false

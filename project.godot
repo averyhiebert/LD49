@@ -54,13 +54,19 @@ ui_up={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="solid_land"
+2d_physics/layer_3="unsolid_tilemap"
+2d_physics/layer_4="water"
+
+[physics]
+
+2d/default_gravity=313
 
 [rendering]
 
 quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=0
-quality/2d/use_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+batching/precision/uv_contract=true
 environment/default_environment="res://default_env.tres"
