@@ -83,6 +83,11 @@ func _process(delta):
 	else:
 		prop_spinning = false
 		$AnimatedSprite.play("slow")
+	
+	# Show passenger
+	
+	if has_passengers:
+		$passenger.visible = true
 
 func reparent(node):
 	# Reparent self (for landing on moving platforms)

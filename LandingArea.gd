@@ -29,9 +29,12 @@ func trigger(player):
 			get_tree().change_scene_to(target)
 	else:
 		for n in self.get_children():
-			# TODO: Passenger animation, sound effect, folded flag, etc.
-			# For now, just make invisible.
-			n.visible = false
+			if n.name == "FlagPole":
+				n.play("empty")
+			else:
+				# TODO: Passenger animation, sound effect, folded flag, etc.
+				# For now, just make invisible.
+				n.visible = false
 		triggered=true
 		emit_signal("on_trigger")
 		player.has_passengers=true
