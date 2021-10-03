@@ -54,7 +54,7 @@ func set_prop_audio(on=true):
 		tween.playback_process_mode = tween.TWEEN_PROCESS_IDLE
 		add_child(tween)
 		tween.interpolate_property($RotorSound,"volume_db",
-		$RotorSound.volume_db, -100, 0.15, Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+		$RotorSound.volume_db, -100, 0.75, Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 		tween.start()
 		# Lerp to -100
 

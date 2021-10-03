@@ -76,6 +76,7 @@ position = Vector2( -6, 0 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 10 )
 animation = "slow"
+frame = 1
 playing = true
 
 [node name="helicopter" type="Sprite" parent="."]

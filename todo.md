@@ -1,13 +1,13 @@
 # Possible things still to do:
 
 # Must do
-- better end screen
-- Tutorializing Text
+- Restart at end screen
 
-# Would be really nice
+# Would be nice
 - Timer for speedruns.
-- Better passenger pickup animation
-- More Levels
+- Better passenger pickup animation?
+- More Levels?
+- Difficulty tweaking?
 
 # Maybe?
 - Better level transition

@@ -23,7 +23,7 @@ target = ExtResource( 2 )
 
 [node name="FlagPole2" parent="LevelTemplate/Exit" index="3"]
 position = Vector2( 4, 8 )
-frame = 2
+frame = 3
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 position = Vector2( 1456, 520 )
@@ -34,9 +34,9 @@ position = Vector2( -40, 12 )
 [node name="human2" parent="LevelTemplate/PassengerPickup" index="3" instance=ExtResource( 3 )]
 position = Vector2( -16, 12 )
 animation = "jumping"
-frame = 3
+frame = 2
 
 [node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="5"]
-frame = 0
+frame = 1
 
 [editable path="LevelTemplate"]

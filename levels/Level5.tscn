@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://MainLevelTilemap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://levels/LevelTemplate.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://nonplayer_sprites/human.tscn" type="PackedScene" id=5]
 [ext_resource path="res://nonplayer_sprites/FlagPole.tscn" type="PackedScene" id=6]
 [ext_resource path="res://nonplayer_sprites/LandingArea.tscn" type="PackedScene" id=7]
+[ext_resource path="res://levels/EndScreen.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 4 )
@@ -36,12 +37,17 @@ limit_right = 1760
 
 [node name="Exit" parent="LevelTemplate" index="3"]
 position = Vector2( 228, 552 )
+target = ExtResource( 8 )
 
 [node name="FlagPole2" parent="LevelTemplate/Exit" index="3"]
 position = Vector2( -12, 8 )
+frame = 3
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 position = Vector2( 1584, -56 )
+
+[node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="3"]
+frame = 1
 
 [node name="pickup_platform" type="StaticBody2D" parent="LevelTemplate"]
 position = Vector2( 1760, 576 )
@@ -62,12 +68,12 @@ rotation = -0.785398
 
 [node name="FlagPole" parent="LevelTemplate/pickup_platform/LandingArea" instance=ExtResource( 6 )]
 position = Vector2( 42.4265, 8.48523 )
-frame = 2
 
 [node name="human" parent="LevelTemplate/pickup_platform/LandingArea" instance=ExtResource( 5 )]
 position = Vector2( 19.799, 14.1422 )
 rotation = 0.785398
 animation = "jumping"
+frame = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LevelTemplate/pickup_platform"]
 polygon = PoolVector2Array( -96, -128, -160, 0, -256, 96, -288, 160, -256, 224, 160, 224, 160, -160, -32, -160 )
