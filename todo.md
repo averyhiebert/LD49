@@ -2,7 +2,6 @@
 
 # Must do
 - better end screen
-- sound effects
 - Tutorializing Text
 
 # Would be really nice

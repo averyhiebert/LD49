@@ -3,6 +3,8 @@ extends Area2D
 export var is_level_exit = false
 export(PackedScene) var target = null
 
+signal on_trigger
+
 var delay = 0.7
 var triggered = false
 
@@ -18,6 +20,7 @@ func trigger(player):
 	if is_level_exit:
 		if player.has_passengers:
 			triggered=true
+			emit_signal("on_trigger")
 			# TODO: Exit to next level...
 			print("Level complete")
 			$LevelFinishSound.play()
@@ -30,6 +33,7 @@ func trigger(player):
 			# For now, just make invisible.
 			n.visible = false
 		triggered=true
+		emit_signal("on_trigger")
 		player.has_passengers=true
 		print("Player now has passengers")
 		$PickupSound.play()
