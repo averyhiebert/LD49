@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/sprites/human.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 5, 8 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 10, 0, 5, 8 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 5, 8 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 5, 0, 5, 8 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 5, 8 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "shuffle",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 3 ), SubResource( 3 ), SubResource( 3 ) ],
+"loop": true,
+"name": "jumping",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "standing",
+"speed": 5.0
+} ]
+
+[node name="human" type="AnimatedSprite"]
+position = Vector2( 0, 12 )
+scale = Vector2( 4, 4 )
+frames = SubResource( 6 )
+animation = "shuffle"
+playing = true
