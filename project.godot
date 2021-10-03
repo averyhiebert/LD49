@@ -19,20 +19,12 @@ config/name="Ld 49"
 run/main_scene="res://levels/Level1.tscn"
 config/icon="res://icon.png"
 
-[autoload]
-
-InkRuntime="*res://addons/inkgd/runtime.gd"
-
 [display]
 
 window/size/width=960
 window/size/height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
-
-[editor_plugins]
-
-enabled=PoolStringArray( "inkgd" )
 
 [input]
 
@@ -66,6 +58,8 @@ ui_up={
 [rendering]
 
 quality/driver/driver_name="GLES2"
+quality/intended_usage/framebuffer_allocation=1
+quality/intended_usage/framebuffer_allocation.mobile=0
 quality/2d/use_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false

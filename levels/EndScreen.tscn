@@ -11,17 +11,18 @@ tile_data = PoolIntArray( -131043, 536870912, 131073, -1, 536870912, 131073, -65
 
 [node name="player" parent="LevelTemplate" index="2"]
 visible = false
+skip_physics = true
 
 [node name="Exit" parent="LevelTemplate" index="3"]
 visible = false
 
 [node name="FlagPole2" parent="LevelTemplate/Exit" index="1"]
-frame = 5
+frame = 2
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 visible = false
 
 [node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="1"]
-frame = 3
+frame = 0
 
 [editable path="LevelTemplate"]

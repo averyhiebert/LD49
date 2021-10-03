@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var skip_physics = false
+export var skip_physics = false
 
 #const AIR_FRICTION = 150 # Decceleration due to friction
 const AIR_FRICTION = 50
