@@ -60,7 +60,6 @@ y_period = 2.0
 
 [node name="human" parent="LevelTemplate/PassengerPickup" index="3" instance=ExtResource( 2 )]
 position = Vector2( -28, 12 )
-frame = 1
 
 [node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="5"]
 position = Vector2( -4, 8 )

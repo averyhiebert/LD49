@@ -1,13 +1,11 @@
 # Possible things still to do:
 
 # Must do
-- Restart at end screen
 
 # Would be nice
-- Timer for speedruns.
 - Better passenger pickup animation?
 - More Levels?
-- Difficulty tweaking?
+- Other difficulty tweaks?
 
 # Maybe?
 - Better level transition

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var skip_physics = false
+var invincible = false # Note: populated from Global
 
 #const AIR_FRICTION = 150 # Decceleration due to friction
 const AIR_FRICTION = 50
@@ -61,6 +62,9 @@ func set_prop_audio(on=true):
 func _process(delta):
 	# Key input
 	
+	if Input.is_action_just_pressed("toggle_invincibility"):
+		invincible = not invincible
+	
 	if Input.is_action_pressed("ui_left"):
 		rotation_direction = -1
 	elif Input.is_action_pressed("ui_right"):
@@ -102,6 +106,8 @@ func reparent(node):
 func _physics_process(delta):
 	if skip_physics:
 		return
+	invincible = Global.invincible # So it carries across levels
+	
 	# Acceleration due to thrust from propeller
 	var prop_direction = Vector2(0,-1).rotated(rotation)
 	if prop_spinning:
@@ -136,8 +142,8 @@ func _physics_process(delta):
 		var rotation_offset = abs(collision_normal.angle_to(prop_direction))
 		var speed_diff = abs((velocity - collider_velocity).length())
 		var is_water = get_slide_collision(0).collider.get_collision_layer() == 8
-		if rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED \
-				or is_water or collision_normal.length() == 0:
+		if (rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED \
+				or is_water or collision_normal.length() == 0) and not invincible:
 			crash("Crashed on landing")
 		else:
 			var curr_time = OS.get_ticks_msec()/1000
@@ -150,7 +156,6 @@ func _physics_process(delta):
 					current_landing_area.trigger(self)
 				rotation = Vector2(0,-1).angle_to(collision_normal) # TODO Lerp
 				# Reparent to colliding body
-				#if get_slide_collision(0) and not prop_spinning:
 				reparent(get_slide_collision(0).collider)
 				return # Don't move this turn (we're static relative to parent)
 			elif not prop_spinning:
@@ -168,7 +173,7 @@ func _physics_process(delta):
 	move_and_slide(velocity,Vector2(0,-1))
 
 func crash(message="crashed"):
-	if OS.get_ticks_msec()/1000 - last_landed < GRACE_PERIOD:
+	if OS.get_ticks_msec()/1000 - last_landed < GRACE_PERIOD or invincible:
 		return
 	skip_physics = true
 	$DeathParticles.emitting = true
