@@ -1,7 +1,5 @@
-# Ludum Dare 49 Helicopter Game
+# Helico Pter 
 
-As-yet untitled helicopter game for Ludum Dare 49, made in 48 hours.
+A game made in 48 hours for Ludum Dare 49 (theme: "unstable").
 
 Web build is in "docs" to make deploying on Github Pages easier.
-
-Work in progress.
