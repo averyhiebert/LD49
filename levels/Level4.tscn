@@ -35,15 +35,15 @@ tile_data = PoolIntArray( -1, 536870912, 131073, -65536, 536870912, 131073, -655
 [node name="player" parent="LevelTemplate" index="2"]
 position = Vector2( 192, 464 )
 
-[node name="Camera2D" parent="LevelTemplate/player" index="5"]
+[node name="Camera2D" parent="LevelTemplate/player" index="7"]
 limit_right = 1856
 
 [node name="Exit" parent="LevelTemplate" index="3"]
 position = Vector2( 176, 456 )
 target = ExtResource( 7 )
 
-[node name="FlagPole2" parent="LevelTemplate/Exit" index="1"]
-frame = 4
+[node name="FlagPole2" parent="LevelTemplate/Exit" index="3"]
+frame = 0
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 visible = false
@@ -55,8 +55,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="2"]
-frame = 2
+[node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="4"]
+frame = 4
 
 [node name="boat_sb" type="StaticBody2D" parent="LevelTemplate"]
 position = Vector2( 1376, 504 )
@@ -84,6 +84,7 @@ position = Vector2( 144, -184 )
 
 [node name="FlagPole" parent="LevelTemplate/boat_sb/LandingArea" instance=ExtResource( 6 )]
 position = Vector2( -8, 8 )
+frame = 2
 
 [node name="human" parent="LevelTemplate/boat_sb/LandingArea" instance=ExtResource( 5 )]
 position = Vector2( 20, 12 )

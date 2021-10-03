@@ -15,10 +15,10 @@ var thrust = 0 # Thrust from helicopter
 
 const ROT_SPEED = 4 # How quickly rotation accelarates/deccelerates
 const MAX_LANDING_ROT = 0.28 # How rotated can we be to count as a valid landing?
-const MAX_LANDING_SPEED = 100 # How fast can we be moving when we land?
+const MAX_LANDING_SPEED = 110 # How fast can we be moving when we land?
 var rotation_direction = 0 # Can be 1,-1,0
 
-const GRACE_PERIOD = 0.1 # Can't crash within this time of having landed
+const GRACE_PERIOD = 0.2 # Can't crash within this time of having landed
 const STICKY_PERIOD = 0.01 # Can't take off within sticky period.
 var landed = false
 var first_landed = 0 # Last time that we first became landed
@@ -34,6 +34,29 @@ var original_parent = null
 func _ready():
 	original_parent = get_parent()
 
+
+func set_prop_audio(on=true):
+	# Turn propeller sounds on and off in a less jarring way
+	
+
+	if on:
+		if not $RotorSound.playing:
+			$RotorSound.play()
+		# Lerp to -20
+		var tween = Tween.new()
+		tween.playback_process_mode = tween.TWEEN_PROCESS_IDLE
+		add_child(tween)
+		tween.interpolate_property($RotorSound,"volume_db",
+		$RotorSound.volume_db, -20, 0.15, Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+		tween.start()
+	else:
+		var tween = Tween.new()
+		tween.playback_process_mode = tween.TWEEN_PROCESS_IDLE
+		add_child(tween)
+		tween.interpolate_property($RotorSound,"volume_db",
+		$RotorSound.volume_db, -100, 0.15, Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+		tween.start()
+		# Lerp to -100
 
 func _process(delta):
 	# Key input
@@ -82,8 +105,10 @@ func _physics_process(delta):
 	# Acceleration due to thrust from propeller
 	var prop_direction = Vector2(0,-1).rotated(rotation)
 	if prop_spinning:
+		set_prop_audio(true)
 		thrust = min(MAX_THRUST,thrust + THRUST_ACC*delta)
 	else:
+		set_prop_audio(false)
 		thrust = max(0,thrust - THRUST_DEACC*delta)
 	var thrust_vec = thrust * prop_direction * delta # rotated by sprite rotation
 	
@@ -98,6 +123,7 @@ func _physics_process(delta):
 			landed = false
 			reparent(null)
 	
+	var landed_ish = false
 	if is_on_floor() and not landed:
 		var collision_normal = Vector2(0,-1) # (Up by default)
 		var collider_velocity = Vector2(0,0)
@@ -110,13 +136,14 @@ func _physics_process(delta):
 		var rotation_offset = abs(collision_normal.angle_to(prop_direction))
 		var speed_diff = abs((velocity - collider_velocity).length())
 		var is_water = get_slide_collision(0).collider.get_collision_layer() == 8
-		print(get_slide_collision(0).collider.get_collision_layer())
-		if rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED or is_water:
-			crash()
+		if rotation_offset > MAX_LANDING_ROT or speed_diff > MAX_LANDING_SPEED \
+				or is_water or collision_normal.length() == 0:
+			crash("Crashed on landing")
 		else:
 			var curr_time = OS.get_ticks_msec()/1000
 			# Don't land again if we just took off
 			if curr_time - last_landed > GRACE_PERIOD:
+			#if true:
 				first_landed = curr_time
 				landed = true
 				if current_landing_area:
@@ -126,9 +153,11 @@ func _physics_process(delta):
 				#if get_slide_collision(0) and not prop_spinning:
 				reparent(get_slide_collision(0).collider)
 				return # Don't move this turn (we're static relative to parent)
+			elif not prop_spinning:
+				landed_ish = true
 	
 	# No touching velocity until here:
-	if landed:
+	if landed or landed_ish:
 		velocity = Vector2(0,0)
 	else:
 		var gravity_vec = Vector2(0,GRAVITY) * delta
@@ -138,13 +167,14 @@ func _physics_process(delta):
 		velocity += friction_vec
 	move_and_slide(velocity,Vector2(0,-1))
 
-func crash():
+func crash(message="crashed"):
 	if OS.get_ticks_msec()/1000 - last_landed < GRACE_PERIOD:
 		return
 	skip_physics = true
 	$DeathParticles.emitting = true
 	$AnimatedSprite.visible = false
-	print("Crashed")
+	$DeathSound.play()
+	print(message)
 	yield(get_tree().create_timer(0.5), "timeout")
 	get_tree().reload_current_scene()
 
@@ -160,5 +190,5 @@ func exit_landing_area():
 
 func _on_Crash_body_body_entered(body):
 	# The body (not skids) hit something
-	crash()
+	crash("Collision body hit something")
 

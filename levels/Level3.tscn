@@ -17,22 +17,19 @@ tile_data = PoolIntArray( -1, 536870912, 131073, -65536, 536870912, 131073, -655
 position = Vector2( 268, 544 )
 rotation = 0.509636
 
-[node name="Camera2D" parent="LevelTemplate/player" index="5"]
+[node name="Camera2D" parent="LevelTemplate/player" index="7"]
 limit_right = 1696
 
 [node name="Exit" parent="LevelTemplate" index="3"]
 position = Vector2( 240, 548 )
 target = ExtResource( 5 )
 
-[node name="FlagPole2" parent="LevelTemplate/Exit" index="1"]
+[node name="FlagPole2" parent="LevelTemplate/Exit" index="3"]
 position = Vector2( 8, -12 )
-frame = 0
+frame = 2
 
 [node name="PassengerPickup" parent="LevelTemplate" index="4"]
 position = Vector2( 1456, 216 )
-
-[node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="1"]
-frame = 4
 
 [node name="human" parent="LevelTemplate/PassengerPickup" index="2" instance=ExtResource( 2 )]
 position = Vector2( -8, 12 )
@@ -41,6 +38,9 @@ frame = 1
 [node name="human2" parent="LevelTemplate/PassengerPickup" index="3" instance=ExtResource( 2 )]
 position = Vector2( -24, 12 )
 frame = 1
+
+[node name="FlagPole" parent="LevelTemplate/PassengerPickup" index="5"]
+frame = 0
 
 [node name="hook_sb" type="StaticBody2D" parent="LevelTemplate"]
 position = Vector2( 768, 176 )
@@ -69,7 +69,7 @@ __meta__ = {
 
 [node name="elevator" parent="LevelTemplate/elevator_sb" instance=ExtResource( 3 )]
 position = Vector2( 1280, 416 )
-collision_layer = 8
+collision_layer = 4
 tile_data = PoolIntArray( -2, 2, 262147, -1, 2, 262147, -65536, 2, 262147, -65535, 2, 262147 )
 
 [node name="CosMover" parent="LevelTemplate/elevator_sb" instance=ExtResource( 4 )]

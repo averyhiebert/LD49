@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://LandingArea.gd" type="Script" id=1]
+[ext_resource path="res://assets/audio/level_clear.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/audio/passenger.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 24 )
@@ -14,5 +16,13 @@ shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="LevelFinishSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = -20.0
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -20.0
 [connection signal="body_entered" from="." to="." method="_on_LandingArea_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_LandingArea_body_exited"]

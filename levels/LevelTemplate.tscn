@@ -38,10 +38,11 @@ is_level_exit = true
 
 [node name="FlagPole2" parent="Exit" instance=ExtResource( 4 )]
 position = Vector2( -24, 8 )
-frame = 2
+frame = 5
 
 [node name="PassengerPickup" parent="." instance=ExtResource( 3 )]
 position = Vector2( 176, 200 )
 
 [node name="FlagPole" parent="PassengerPickup" instance=ExtResource( 4 )]
 position = Vector2( 24, 8 )
+frame = 3

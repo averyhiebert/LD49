@@ -20,6 +20,7 @@ func trigger(player):
 			triggered=true
 			# TODO: Exit to next level...
 			print("Level complete")
+			$LevelFinishSound.play()
 			# Wait a sec before transitioning.
 			yield(get_tree().create_timer(delay), "timeout")
 			get_tree().change_scene_to(target)
@@ -31,6 +32,7 @@ func trigger(player):
 		triggered=true
 		player.has_passengers=true
 		print("Player now has passengers")
+		$PickupSound.play()
 
 func _on_LandingArea_body_entered(body):
 	if body.has_method("enter_landing_area"):
